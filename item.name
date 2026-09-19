@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — {{ pharmacy_name }}{% endblock %}
+{% block content %}
+
+<section class="dashboard">
+  <h1>{{ pharmacy_name }}</h1>
+  <p class="dashboard-sub">Update your price and stock for each medication. Changes are visible to customers immediately.</p>
+
+  <table class="inventory-table">
+    <thead>
+      <tr>
+        <th>Medication</th>
+        <th>Generic name</th>
+        <th>Price</th>
+        <th>In stock</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in inventory %}
+      <tr>
+        <form method="POST" action="{{ url_for('dashboard_update') }}">
+          <input type="hidden" name="medication_id" value="{{ item.medication_id }}">
+          <td>{{ item.name }}</td>
+          <td>{{ item.generic_name or "—" }}</td>
+          <td><input type="number" step="0.01" min="0" name="price" value="{{ item.price or '' }}" placeholder="0.00"></td>
+          <td class="stock-cell">
+            <input type="checkbox" name="in_stock" {% if item.in_stock %}checked{% endif %}>
+          </td>
+          <td><button type="submit">Save</button></td>
+        </form>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="add-medication">
+    <h2>Add a medication not listed above</h2>
+    <form method="POST" action="{{ url_for('add_medication') }}" class="add-medication-form">
+      <input type="text" name="name" placeholder="Medication name" required>
+      <input type="text" name="generic_name" placeholder="Generic name (optional)">
+      <input type="number" step="0.01" min="0" name="price" placeholder="Price">
+      <label class="stock-label"><input type="checkbox" name="in_stock" checked> In stock</label>
+      <button type="submit">Add</button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}
