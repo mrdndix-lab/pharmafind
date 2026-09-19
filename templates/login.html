@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Pharmacy login — PharmaFind{% endblock %}
+{% block content %}
+
+<section class="auth-panel">
+  <h1>Pharmacy login</h1>
+  <p class="auth-sub">Manage what your pharmacy carries and what it costs.</p>
+
+  <form method="POST" class="auth-form">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required autofocus>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Log in</button>
+  </form>
+</section>
+
+{% endblock %}
